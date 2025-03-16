@@ -8,17 +8,16 @@ from app.forms import LoginForm, UploadForm
 views = Blueprint('views', __name__)
 
 def get_uploaded_images():
-    upload_folder = current_app.config['UPLOAD_FOLDER']
-    if not os.path.exists(upload_folder):
-        return []
+    upload_folder = os.path.join(os.getcwd(), 'uploads')
+    image_files = []
     
-    allowed_extensions = {'jpg', 'png'}
-  
-    return [
-        f for f in os.listdir(upload_folder)
-        if os.path.isfile(os.path.join(upload_folder, f)) and
-        f.split('.')[-1].lower() in allowed_extensions
-    ]
+    if os.path.exists(upload_folder):
+        for subdir, dirs, files in os.walk(upload_folder):
+            for file in files:
+                if file.lower().endswith(('.png', '.jpg', '.jpeg')):
+                    image_files.append(file)  
+    
+    return image_files
 
 @views.route('/')
 def home():
@@ -36,7 +35,7 @@ def upload():
     if form.validate_on_submit():
         file = form.file.data
         filename = secure_filename(file.filename)
-        upload_folder = current_app.config['UPLOAD_FOLDER']
+        upload_folder = os.path.join(os.getcwd(), 'uploads')
 
         if not os.path.exists(upload_folder):
             os.makedirs(upload_folder)
@@ -78,7 +77,7 @@ def files():
 
 @views.route('/uploads/<filename>')
 def get_image(filename):
-    upload_folder = current_app.config['UPLOAD_FOLDER']
+    upload_folder = os.path.abspath(os.path.join(os.getcwd(), 'uploads'))
     file_path = os.path.join(upload_folder, filename)
     
     # Debug: Print the upload folder and file path

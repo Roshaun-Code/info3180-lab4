@@ -1,6 +1,19 @@
 {% extends 'base.html' %}
 
 {% block main %}
+<style>
+  .image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+  }
+
+  .image-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+  }
+</style>
   <h1>Uploaded Images</h1>
   <div class="image-grid">
     {% for image in images %}
@@ -11,16 +24,3 @@
   </div>
 {% endblock %}
 
-<!-- <style>
-    .image-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 10px;
-    }
-
-    .image-item img {
-      width: 100%;
-      height: auto;
-      border-radius: 5px;
-    }
-</style> -->
