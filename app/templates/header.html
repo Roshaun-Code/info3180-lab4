@@ -7,19 +7,28 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link active" href="{{ url_for('home') }}">Home <span class="visually-hidden">(current)</span></a>
+          <a class="nav-link active" href="{{ url_for('views.home') }}">Home <span class="visually-hidden">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('about') }}">About</a>
+          <a class="nav-link" href="{{ url_for('views.about') }}">About</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('upload') }}">File Upload</a>
+          <a class="nav-link" href="{{ url_for('views.upload') }}">File Upload</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('views.files') }}">View Images</a>
         </li>
       </ul>
       <ul class="navbar-nav">
-        <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('login') }}">Login</a>
-        </li>
+        {% if current_user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('views.logout') }}">Logout</a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('views.login') }}">Login</a>
+          </li>
+        {% endif %}
       </ul>
     </div>
   </div>
